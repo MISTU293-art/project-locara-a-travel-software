@@ -1,0 +1,93 @@
+/* Improved Login Page Styles */
+body {
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  color: #333;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+fieldset {
+  width: 340px;
+  margin: 80px auto;
+  padding: 32px 28px 28px 28px;
+  border-radius: 14px;
+  border: 1px solid #b2bec3;
+  background: #fff;
+  box-shadow: 0 6px 32px rgba(44, 62, 80, 0.10);
+  text-align: left;
+}
+
+legend {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #4078c0;
+  padding: 0 10px;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+}
+
+label {
+  font-size: 1em;
+  color: #353b48;
+  margin-bottom: 6px;
+  display: block;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: 1px solid #dcdde1;
+  border-radius: 7px;
+  font-size: 1em;
+  background: #f1f2f6;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #4078c0;
+  outline: none;
+  background: #fff;
+}
+
+button, input[type="submit"] {
+  width: 48%;
+  padding: 12px;
+  background: #4078c0;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 8px 1%;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+}
+
+button:hover, input[type="submit"]:hover {
+  background: #273c75;
+}
+
+a {
+  text-decoration: none;
+  color: #4078c0;
+  font-size: 0.95em;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 480px) {
+  fieldset {
+    width: 95%;
+    padding: 18px 8px;
+  }
+  button, input[type="submit"] {
+    width: 100%;
+    margin: 8px 0;
+  }
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>GPS Camera App</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+        text-align: center;
+        padding: 32px 8px;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 700px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 32px rgba(44, 62, 80, 0.10);
+        padding: 32px 24px;
+      }
+      h2 {
+        color: #4078c0;
+        margin-bottom: 24px;
+        font-size: 2em;
+        letter-spacing: 1px;
+      }
+      video, canvas {
+        border: 2px solid #b2bec3;
+        border-radius: 12px;
+        margin: 16px auto;
+        display: block;
+        max-width: 100%;
+        background: #f1f2f6;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+      }
+      .btn-group {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      button, input[type="file"] {
+        margin: 0;
+        padding: 12px 24px;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 8px;
+        background-color: #4078c0;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+        transition: background 0.2s;
+      }
+      button:hover, input[type="file"]:hover {
+        background-color: #273c75;
+      }
+      #location {
+        margin-top: 18px;
+        font-size: 1.1em;
+        color: #444;
+        background: #f1f2f6;
+        border-radius: 8px;
+        padding: 10px 0;
+        box-shadow: 0 1px 4px rgba(44, 62, 80, 0.05);
+        display: inline-block;
+        min-width: 320px;
+      }
+      @media (max-width: 600px) {
+        .container {
+          padding: 12px 4px;
+        }
+        video, canvas {
+          width: 100% !important;
+          height: auto !important;
+        }
+        #location {
+          min-width: 0;
+          width: 100%;
+        }
+      }
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h2>LOCARA</h2>
+
+    <video id="video" width="640" height="480" autoplay></video>
+    <div class="btn-group">
+      <button onclick="capturePhoto()">Capture Photo</button>
+      <input type="file" accept="image/*" onchange="previewUpload(event)">
+    </div>
+    <canvas id="canvas" width="640" height="480"></canvas>
+
+    <p id="location">Fetching location...</p>
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const locationText = document.getElementById('location');
+    let latitude = '', longitude = '';
+
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => video.srcObject = stream)
+      .catch(err => console.error("Camera error:", err));
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        latitude = pos.coords.latitude.toFixed(6);
+        longitude = pos.coords.longitude.toFixed(6);
+        locationText.innerText = `📍 Latitude: ${latitude}, Longitude: ${longitude}`;
+      }, err => {
+        locationText.innerText = "⚠️ Location access denied.";
+      });
+    } else {
+      locationText.innerText = "⚠️ Geolocation not supported.";
+    }
+
+    function capturePhoto() {
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      ctx.font = "20px Arial";
+      ctx.fillStyle = "yellow";
+      ctx.fillText(`Lat: ${latitude}`, 10, 30);
+      ctx.fillText(`Lon: ${longitude}`, 10, 60);
+    }
+
+ 
+    function previewUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          ctx.font = "20px Arial";
+          ctx.fillStyle = "yellow";
+          ctx.fillText(`Lat: ${latitude}`, 10, 30);
+          ctx.fillText(`Lon: ${longitude}`, 10, 60);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+  <page2> 
+    <footer>
+      <button type="button" onclick="window.location.href='login.html'">Logout</button>
+      <footer> 
+        <address>
+          &copy; 2024 LOCARA. All rights reserved.
+        </address>
+      </footer>
+    </footer>
+  </page2>
+</body>
+</html>
